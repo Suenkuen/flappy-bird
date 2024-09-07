@@ -24,21 +24,25 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        // Ensure no updates happen if the game is paused
+        if (Time.timeScale == 0) return;
+
+        // Handle player input
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             direction = Vector3.up * strength;
         }
 
-        if(Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-
-            if(touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began)
             {
                 direction = Vector3.up * strength;
             }
         }
 
+        // Apply gravity and move the bird
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
     }
@@ -47,7 +51,7 @@ public class Player : MonoBehaviour
     {
         spriteIndex++;
 
-        if(spriteIndex >= sprites.Length)
+        if (spriteIndex >= sprites.Length)
         {
             spriteIndex = 0;
         }
@@ -69,10 +73,27 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
+        // Reset position and direction when player is enabled (after Play)
         Vector3 position = transform.position;
         position.y = 0f;
         transform.position = position;
         direction = Vector3.zero;
     }
 
+    public void ResetDirection()
+    {
+        direction = Vector3.zero; // Reset the direction to stop sudden movement
+    }
+
+    public void PrepareForPause()
+    {
+        // Optionally handle anything that needs to be frozen or saved
+        direction = Vector3.zero;  // Clear movement to ensure it doesn't apply post-pause
+    }
+
+    public void PrepareForResume()
+    {
+        // Reset or recalibrate the state as needed
+        ResetDirection();  // Clear any residual movement effects
+    }
 }

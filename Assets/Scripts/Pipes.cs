@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pipes : MonoBehaviour
 {
     public float moveSpeed = 2f;
+    public float acceleration = 1.1f;
     private float leftEdge;
 
     private void Start()
@@ -14,6 +15,7 @@ public class Pipes : MonoBehaviour
 
     private void Update()
     {
+        moveSpeed += acceleration * Time.deltaTime;
         transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 
         if(transform.position.x < leftEdge)
