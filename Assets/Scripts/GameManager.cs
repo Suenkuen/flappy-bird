@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public Text highestScoreText;
 
     private bool isPaused = false;
-    private bool isGameOver = false;
+    private bool isGameOver = true;
 
     private void Awake()
     {
